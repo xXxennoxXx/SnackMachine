@@ -2,40 +2,65 @@ package products;
 
 public class Product {
 
-    private Long id;
-    private String Name;
+    private String name;
     private Double price;
+    private int amount;
     private ProductState state;
 
-    public Long getId() {
-        return id;
+    public Product(String name, Double price, int amount) {
+        this.name = name;
+        this.price = price;
+        this.amount = amount;
+
+        setAmount(amount);
+        ProductsExtent.getInstance().addToProducts(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void addAmount(int amount) {
+        this.amount += amount;
     }
 
-    public String getName() {
-        return Name;
+    public Boolean takeProduct() throws Exception {
+        if (state == ProductState.LACK_OF_PRODUCT)
+            throw new Exception("Lack of product: " + name);
+        setAmount(--amount);
+        return true;
     }
 
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public Double getPrice() {
-        return price;
+    private void setAmount(int amount) {
+        this.amount = amount;
+        if (amount == 0)
+            state = ProductState.LACK_OF_PRODUCT;
+        else
+            state = ProductState.AVAILABLE;
     }
 
     public void setPrice(Double price) {
         this.price = price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
     public ProductState getState() {
         return state;
     }
 
-    public void setState(ProductState state) {
-        this.state = state;
+    @Override
+    public String toString() {
+        return "Product:\n" +
+                "\tName: " + name +
+                "\n\tPrice: " + price +
+                "\n\tAmount: " + amount +
+                "\n\t" + state;
     }
 }

@@ -9,15 +9,17 @@ public class MachineTest extends TestCase {
 
     public void testAddProduct() {
 
-        Product product1 = new Product(),
-                product2 = new Product(),
-                product3 = new Product();
-
-        Machine.addProduct(product1);
-        Machine.addProduct(product2);
-        Machine.addProduct(product3);
-
-        List<Product> products = Machine.getProducts();
-        System.out.println(products.size());
+//        Machine machine = new Machine();
+//
+//        Product product1 = new Product(),
+//                product2 = new Product(),
+//                product3 = new Product();
+//
+//        machine.addProduct(product1);
+//        machine.addProduct(product2);
+//        machine.addProduct(product3);
+//
+//        List<Product> products = machine.getProducts();
+//        System.out.println(products.size());
     }
 }

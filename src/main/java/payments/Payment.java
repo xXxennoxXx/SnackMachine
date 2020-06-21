@@ -1,5 +1,5 @@
 package payments;
 
 public interface Payment {
-    public boolean makePayment();
+    public boolean makePayment(Double amount);
 }
