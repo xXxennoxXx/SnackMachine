@@ -1,0 +1,42 @@
+@startuml
+class MainController{}
+package "Pattern Factory Method"{
+    class Machine{}
+    package "Pattern Facade"{
+        class Order{}
+    }
+    class OrderFactory{}
+}
+enum PaymentType{}
+class OrderDto{}
+
+
+package "Pattern State"{
+    class Product{
+    state : ProductState
+    }
+    enum ProductState{}
+    Product<..ProductState
+}
+package "Pattern Singleton" {
+    class ProductExtent{}
+}
+ProductExtent *-- Product
+package Payments {
+interface Payment{}
+class CardPayment{}
+class CashPayment{}
+ Payment .. CardPayment
+Payment .. CashPayment
+}
+Order "1"--"1" Payment
+Order "1"--"1" Product
+Machine "1"*--"*"Order
+Machine "1"<--"1" OrderFactory
+OrderFactory ..> Order: Produkuje Order
+MainController "1"--"1" Machine
+OrderDto<.. MainController
+OrderDto..>Machine
+OrderDto "*" --"1" PaymentType
+
+@enduml
