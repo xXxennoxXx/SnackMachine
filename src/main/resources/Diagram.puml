@@ -1,25 +1,42 @@
 @startuml
-class MainController{}
-package "Pattern Factory Method"{
+
+package "Pattern Factory"{
     class Machine{}
     package "Pattern Facade"{
-        class Order{}
+        class Order{
+
+            +Order(Payment,Product):Order
+            evaluate(): boolean
+        }
+        note left: Fasada ukrywa wykonanie zadania jedynie\nudosteniajac mozliwosc jego wykonania\nMetoda evaluate ukrywa "szczegolowe"\nwykonanie zadania
     }
     class OrderFactory{}
+    note "Na podstawie danych wejsciowych klasa decyduje jakiego typu klasy\n'wlozyc' do Order" as N1
+    N1 .. OrderFactory
 }
-enum PaymentType{}
-class OrderDto{}
-
-
+package "Pattern Command" {
+    enum PaymentType{}
+    class OrderDto{}
+    class MainController{}
+    note right: Wysyla polecania z interfejsu do Machine,\nktory to "przetwarza"\nakcje uzytkownika
+}
 package "Pattern State"{
     class Product{
     state : ProductState
     }
-    enum ProductState{}
+    note left: Zalezenie od stanu (state) inne\nzachowanie obiektu
+    enum ProductState{
+        -Name
+    }
     Product<..ProductState
 }
 package "Pattern Singleton" {
-    class ProductExtent{}
+    class ProductExtent{
+        - ProductExtent
+        -ProductExtent()
+      {static}  +getInstance():ProductExtent
+    }
+    note left: Nie pozawala na stworzenie instancji\noprocz jednej globalnej i globanie dostepnej
 }
 ProductExtent *-- Product
 package Payments {
@@ -35,8 +52,8 @@ Machine "1"*--"*"Order
 Machine "1"<--"1" OrderFactory
 OrderFactory ..> Order: Produkuje Order
 MainController "1"--"1" Machine
-OrderDto<.. MainController
+MainController..>OrderDto
 OrderDto..>Machine
-OrderDto "*" --"1" PaymentType
+PaymentType "1"--"*"OrderDto
 
 @enduml
